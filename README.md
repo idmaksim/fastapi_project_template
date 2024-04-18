@@ -1,3 +1,5 @@
-# SPARKS
+# SIMPLE REGISTRATION TEMPLATE
 
-This is API for mobile app SPARKS
+This is a simple API template for registration
+
+
