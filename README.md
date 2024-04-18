@@ -2,7 +2,7 @@
 
 This is a simple API template for registration
 
-## Requirements
+## Libraries
 
 - sqlalchemy
 - FastAPI
