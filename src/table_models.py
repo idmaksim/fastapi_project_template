@@ -17,30 +17,6 @@ class Users(Base):
     role_id: int = Column(ForeignKey('roles.id'), nullable=False)
 
 
-class Roles(Base):
-    __tablename__ = "roles"
-
-    __table_args__ = dict(
-        extend_existing=True
-    )
-
-    id: int = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    name: str = Column(String, nullable=False, unique=True)
-
-
-class Teachers(Base):
-    __tablename__ = 'teachers'
-
-    __table_args__ = dict(
-        extend_existing=True
-    )
-
-    id: int = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    email: str = Column(String, unique=True, nullable=False)
-    password: str = Column(String, nullable=False)
-    name: str = Column(String, nullable=False)
-
-
 class VerificationCodes(Base):
     __tablename__ = 'verification_codes'
 
