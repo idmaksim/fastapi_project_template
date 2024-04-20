@@ -8,7 +8,7 @@ class Server:
     def __init__(self, ip: str, port: int) -> None:
         self.__ip = ip
         self.__port = port
-        self.app = FastAPI(debug=True, title="SPARKS API", version="beta 0.0.1")
+        self.app = FastAPI(debug=True, title="YOUR API NAME", version="YOUR API VERSION")
 
     def init_routes(self):
         self.app.include_router(user_routes.router)
