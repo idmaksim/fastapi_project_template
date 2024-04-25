@@ -1,11 +1,3 @@
-# SIMPLE REGISTRATION TEMPLATE
+# SPARKS
 
-This is a simple API template for registration
-
-## Libraries
-
-- sqlalchemy
-- FastAPI
-  
-
-
+This is API for mobile app SPARKS

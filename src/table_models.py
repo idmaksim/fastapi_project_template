@@ -1,5 +1,5 @@
 from db import Base, engine
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String
 
 
 class Users(Base):
@@ -14,7 +14,6 @@ class Users(Base):
     password: str = Column(String, nullable=False)
     name: str = Column(String, nullable=False)
     age: int = Column(Integer, nullable=False)
-    role_id: int = Column(ForeignKey('roles.id'), nullable=False)
 
 
 class VerificationCodes(Base):

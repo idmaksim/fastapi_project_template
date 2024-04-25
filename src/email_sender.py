@@ -12,7 +12,7 @@ async def send_email(send_to: str, header: str, body: str):
     msg['Subject'] = header
 
     msg.attach(MIMEText(body, 'plain'))
-    sender = smtplib.SMTP("smtp.gmail.com", 587) # can be changed if you using another SMTP server
+    sender = smtplib.SMTP("smtp.gmail.com", 587)
     sender.starttls()
     sender.login(config.SEND_FROM_EMAIL, config.PASSWORD_EMAIL)
     text = msg.as_string()

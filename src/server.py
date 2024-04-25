@@ -8,19 +8,19 @@ class Server:
     def __init__(self, ip: str, port: int) -> None:
         self.__ip = ip
         self.__port = port
-        self.app = FastAPI(debug=True, title="YOUR API NAME", version="YOUR API VERSION")
+        self.__app = FastAPI(debug=True, title="SOON", version="beta 1.0")
 
     def init_routes(self):
-        self.app.include_router(user_routes.router)
-        self.app.include_router(verification_code_routes.router)
+        self.__app.include_router(user_routes.router)
+        self.__app.include_router(verification_code_routes.router)
 
-        @self.app.get("/", include_in_schema=False)
+        @self.__app.get("/", include_in_schema=False)
         async def redirect_to_docs():
             return RedirectResponse("/docs")
 
     def run(self):
         uvicorn.run(
-            self.app,
+            app=self.__app,
             host=self.__ip,
             port=self.__port
         )
