@@ -3,22 +3,23 @@ from db import get_db
 from random import randint
 from sqlalchemy.orm import Session
 from email_sender import send_email
+
 from fastapi import Depends, APIRouter, status, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 
 
 router = APIRouter(
-    prefix='/verification_code',
+    prefix='/verification_codes',
     tags=['Verification Codes']
 )
 
 
 @router.get('/send')
 async def send_verification_code(
-        email: str,
-        db: Session = Depends(get_db)
-    ):
-    
+    email: str,
+    db: Session = Depends(get_db)
+):
     current_code: int = randint(100000, 999999)
     
     recipient_info: dict = dict(
@@ -42,7 +43,7 @@ async def send_verification_code(
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content=dict(
-                data=new_recipient_info
+                data=jsonable_encoder(new_recipient_info)
             )
         )
 
@@ -53,12 +54,12 @@ async def send_verification_code(
             return JSONResponse(
                 status_code=status.HTTP_200_OK,
                 content=dict(
-                    data=recipient_info
+                    data=jsonable_encoder(recipient_info)
                 )
             )
 
         except Exception as error:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail=error
+                detail=f'{error}'
             )

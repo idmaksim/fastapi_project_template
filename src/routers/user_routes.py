@@ -6,22 +6,22 @@ from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
 from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 from fastapi import Depends, APIRouter, HTTPException, status
 
 
 router = APIRouter(
-    prefix='/user',
+    prefix='/users',
     tags=['User']
 )
 
 
 @router.get('')
 async def user_get(
-        email: str, 
-        password: str,
-        db: Session = Depends(get_db)
-    ):
-
+    email: str, 
+    password: str,
+    db: Session = Depends(get_db)
+):
     user = db.query(table_models.Users).filter(
         and_(
             table_models.Users.email == email,
@@ -38,47 +38,45 @@ async def user_get(
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=dict(
-            data=user
+            data=jsonable_encoder(user)
         )
     )
 
 
 @router.post('')
 async def user_add(
-        user: request_models.UserRequest,
-        db: Session = Depends(get_db)
-    ):
-
+    user: request_models.UserRequest,
+    db: Session = Depends(get_db)
+):
     new_user = table_models.Users(**user.model_dump())
 
-    db.add(new_user)
-
     try:
+        db.add(new_user)
+
         db.commit()
         db.refresh(new_user)
 
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content=dict(
-                data=new_user
+                data=jsonable_encoder(new_user)
             )
         )
         
     except Exception as error:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=error
+            detail=f'{error}'
         )
 
 
 @router.put('')
 async def user_update(
-        email: str, 
-        password: str,
-        new_user: request_models.UserRequest,
-        db: Session = Depends(get_db)
-    ):
-
+    email: str, 
+    password: str,
+    new_user: request_models.UserRequest,
+    db: Session = Depends(get_db)
+):
     query = db.query(table_models.Users).filter(
         and_(
             table_models.Users.email == email,
@@ -105,24 +103,23 @@ async def user_update(
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content=dict(
-                data=updated_user
+                data=jsonable_encoder(updated_user)
             )
         )
     
     except Exception as error:
         raise HTTPException(
             status_code=status.HTTP_304_NOT_MODIFIED,
-            detail=error
+            detail=f'{error}'
         )
 
 
 @router.delete('')
 async def user_delete(
-        email: str, 
-        password: str,
-        db: Session = Depends(get_db)
-    ):
-
+    email: str, 
+    password: str,
+    db: Session = Depends(get_db)
+):
     user = db.query(table_models.Users).filter(
         and_(
             table_models.Users.email == email,
@@ -142,16 +139,15 @@ async def user_delete(
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=dict(
-            data=user
+            data=jsonable_encoder(user)
         )
     )
 
 
 @router.get('/names')
 async def all_usernames_get(
-        db: Session = Depends(get_db)
-    ):
-    
+    db: Session = Depends(get_db)
+):
     users = db.query(table_models.Users).all()
     usernames = [user.name for user in users]
 
