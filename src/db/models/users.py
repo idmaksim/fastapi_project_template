@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String
-from ..db.db import Base
-from ..schemas.users import UserRead
+
+from schemas.users import UserRead
+from ..db import Base
+
 
 
 class Users(Base):
