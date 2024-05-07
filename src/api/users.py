@@ -1,4 +1,5 @@
 from fastapi import APIRouter, status
+from fastapi.encoders import jsonable_encoder
 
 from repositories.users import UsersRepository
 from schemas.users import UserRequest
@@ -14,8 +15,7 @@ router = APIRouter(
 async def add_user(
     user: UserRequest,
 ):
-    user_dict = await user.model_dump()
-    new_user = UsersRepository().add_one(user_dict)
-    return {
-        new_user
-    }
+    user_dict = user.model_dump()
+    new_user = await UsersRepository().add_one(user_dict)
+    return new_user 
+
