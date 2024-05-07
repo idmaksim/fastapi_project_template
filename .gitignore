@@ -1,7 +1,5 @@
-venv/
-.venv/
-src/__pycache__/
-src/routers/__pycache__/
-__pycache__/
+venv
+.venv
 images
 .idea
+__pycache__
