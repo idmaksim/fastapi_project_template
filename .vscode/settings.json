@@ -1,8 +1,0 @@
-{
-    "cSpell.words": [
-        "sqlalchemy",
-        "fastapi"
-    ],
-    "python.analysis.typeCheckingMode": "off",
-    "python.analysis.autoImportCompletions": false
-}
