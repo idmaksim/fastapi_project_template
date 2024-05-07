@@ -10,6 +10,7 @@ async def lifespan(app: FastAPI):
     await create_db_and_tables()
     yield
 
+
 app = FastAPI(lifespan=lifespan, include_in_schema=True)
 app.include_router(main_api_router)
 
