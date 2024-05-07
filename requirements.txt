@@ -1,4 +1,6 @@
 fastapi[all]
 sqlalchemy
-#psycopg2
+psycopg2
 python-multipart
+aiosqlite
+psycopg2
