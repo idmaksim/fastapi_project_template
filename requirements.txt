@@ -3,4 +3,3 @@ sqlalchemy
 psycopg2
 python-multipart
 aiosqlite
-psycopg2
