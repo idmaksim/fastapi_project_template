@@ -19,7 +19,7 @@ class UsersService:
         return users
     
     async def get_one(self, id: int):
-        user: Users = await self.users_repo.get_one(id)
+        user: Users = await self.users_repo.get_one_by_id(id)
         return user
     
 

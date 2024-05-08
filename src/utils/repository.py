@@ -14,7 +14,7 @@ class AbstractRepository(ABC):
         raise NotImplementedError
     
     @abstractmethod
-    async def get_one():
+    async def get_one_by_id():
         raise NotImplementedError
     
 
@@ -34,7 +34,7 @@ class SQLAlchemyRepository(AbstractRepository):
             res = await session.execute(statement=stmt)
             return res.scalars().all()[:limit]
         
-    async def get_one(self, id: int):
+    async def get_one_by_id(self, id: int):
         async with async_session_maker() as session:
             stmt: Select = select(self.model).filter_by(id=id)
             res = await session.execute(statement=stmt)
