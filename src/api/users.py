@@ -1,9 +1,7 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.encoders import jsonable_encoder
 
 from api.dependencies import users_service
-from repositories.users import UsersRepository
 from schemas.users import UserRequest
 from services.users import UsersService
 from utils.error_handler import handle_route_error

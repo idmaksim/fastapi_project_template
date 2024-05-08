@@ -15,7 +15,7 @@ class UsersService:
         return new_user
     
     async def get_all(self):
-        users: List[Users] = await self.users_repo.find_all()
+        users: List[Users] = await self.users_repo.get_all()
         return users
     
 
