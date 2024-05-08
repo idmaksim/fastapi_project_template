@@ -1,8 +1,8 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from api.dependencies import users_service
-from schemas.users import UserRequest
+from schemas.users import UserAddRequest
 from services.users import UsersService
 from utils.error_handler import handle_route_error
 
@@ -15,7 +15,7 @@ router = APIRouter(
 
 @router.post('', status_code=status.HTTP_201_CREATED)
 async def add_user(
-    user: UserRequest,
+    user: UserAddRequest,
     user_service: Annotated[UsersService, Depends(users_service)]
 ):
     try:
@@ -27,12 +27,32 @@ async def add_user(
 
 
 @router.get('/{id}')
-async def get_all_users(
+async def get_user_by_id(
     user_service: Annotated[UsersService, Depends(users_service)],
     id: int
 ):
     try:
-        user = await user_service.get_one(id)
+        user = await user_service.get_one_by_id(id)
+        if user:
+            return user
+        
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='user not found'
+        )
+        
+    except Exception as e:
+        await handle_route_error(e, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        
+@router.get('')
+async def get_user(
+    user_service: Annotated[UsersService, Depends(users_service)],
+    email: str,
+    password: str
+):
+    try:
+        user = await user_service.get_one(email=email, password=password)
         if user:
             return user
         
