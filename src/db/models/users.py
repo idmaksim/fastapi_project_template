@@ -10,4 +10,4 @@ class Users(Base):
     email: str = Column(String, unique=True, nullable=False)
     password: str = Column(String, nullable=False)
     name: str = Column(String, nullable=False)
-    username: str = Column(String, nullable=False)
+    username: str = Column(String, nullable=False, unique=True)
