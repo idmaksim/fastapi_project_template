@@ -14,9 +14,13 @@ class UsersService:
         new_user.__delattr__('password')
         return new_user
     
-    async def get_all(self):
-        users: List[Users] = await self.users_repo.get_all()
+    async def get_all(self, limit: int = 10):
+        users: List[Users] = await self.users_repo.get_all(limit)
         return users
+    
+    async def get_one(self, id: int):
+        user: Users = await self.users_repo.get_one(id)
+        return user
     
 
     

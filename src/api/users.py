@@ -26,12 +26,32 @@ async def add_user(
         await handle_route_error(e, status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@router.get('/all')
+@router.get('/{id}')
 async def get_all_users(
-    user_service: Annotated[UsersService, Depends(users_service)]
+    user_service: Annotated[UsersService, Depends(users_service)],
+    id: int
 ):
     try:
-        users = await user_service.get_all()
+        user = await user_service.get_one(id)
+        if user:
+            return user
+        
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='user not found'
+        )
+        
+    except Exception as e:
+        await handle_route_error(e, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+@router.get('/all/{limit}')
+async def get_all_users(
+    user_service: Annotated[UsersService, Depends(users_service)],
+    limit: int
+):
+    try:
+        users = await user_service.get_all(limit)
         if users:
             return users
         raise HTTPException(
