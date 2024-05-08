@@ -26,7 +26,7 @@ async def add_user(
         await handle_route_error(e, status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@router.get('/{id}')
+@router.get('/{id}', status_code=status.HTTP_200_OK)
 async def get_user_by_id(
     user_service: Annotated[UsersService, Depends(users_service)],
     id: int
@@ -45,7 +45,7 @@ async def get_user_by_id(
         await handle_route_error(e, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         
-@router.get('')
+@router.get('', status_code=status.HTTP_200_OK)
 async def get_user(
     user_service: Annotated[UsersService, Depends(users_service)],
     email: str,
@@ -65,7 +65,28 @@ async def get_user(
         await handle_route_error(e, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 
-@router.get('/all/{limit}')
+@router.delete('/{id}', status_code=status.HTTP_200_OK)
+async def delete_user_by_id(
+    user_service: Annotated[UsersService, Depends(users_service)],
+    id: int
+):
+    try:
+        user = await user_service.get_one_by_id(id)
+        
+        if user:
+            deleted_user = await user_service.delete_by_id(id)
+            return deleted_user
+        
+        raise HTTPException(
+            detail='user not found',
+            status_code=status.HTTP_404_NOT_FOUND
+        )
+    
+    except Exception as e:
+        await handle_route_error(e, status_code=status.HTTP_404_NOT_FOUND)
+        
+
+@router.get('/all/{limit}', status_code=status.HTTP_200_OK)
 async def get_all_users(
     user_service: Annotated[UsersService, Depends(users_service)],
     limit: int

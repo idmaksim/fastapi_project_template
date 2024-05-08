@@ -26,5 +26,9 @@ class UsersService:
         user: Users = await self.users_repo.get_one_by_data(email=email, password=password)
         return user
     
+    async def delete_by_id(self, id: int):
+        user: Users = await self.users_repo.delete_one_by_id(id)
+        return user
+    
 
     
