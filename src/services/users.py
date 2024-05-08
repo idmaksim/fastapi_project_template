@@ -23,7 +23,8 @@ class UsersService:
         return user
     
     async def get_one(self, email: str, password: str):
-        ...
+        user: Users = await self.users_repo.get_one_by_data(email=email, password=password)
+        return user
     
 
     

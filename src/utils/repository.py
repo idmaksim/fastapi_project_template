@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from sqlalchemy import Select, insert, select
+from sqlalchemy import insert, select, and_
 from db.db import async_session_maker
 
 
@@ -15,6 +15,10 @@ class AbstractRepository(ABC):
     
     @abstractmethod
     async def get_one_by_id():
+        raise NotImplementedError
+    
+    @abstractmethod
+    async def get_one_by_data():
         raise NotImplementedError
     
 
@@ -36,7 +40,13 @@ class SQLAlchemyRepository(AbstractRepository):
         
     async def get_one_by_id(self, id: int):
         async with async_session_maker() as session:
-            stmt: Select = select(self.model).filter_by(id=id)
+            stmt = select(self.model).filter_by(id=id)
             res = await session.execute(statement=stmt)
+            return res.scalar()
+        
+    async def get_one_by_data(self, **filters):
+        async with async_session_maker() as session:
+            stmt = select(self.model).where(and_(*[getattr(self.model, key) == value for key, value in filters.items()]))
+            res = await session.execute(stmt)
             return res.scalar()
             
