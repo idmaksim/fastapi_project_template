@@ -1,10 +1,8 @@
-from typing import AsyncGenerator
-
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
 
-DATABASE_URL = "sqlite+aiosqlite:///././test.db" # switch to "sqlite+aiosqlite:///./test.db" if you using Windows
+DATABASE_URL = "postgresql+asyncpg://username:password@host:port/dbname"
 
 
 class Base(DeclarativeBase):
@@ -22,6 +20,6 @@ async def create_db_and_tables():
         await conn.run_sync(Base.metadata.create_all)
 
 
-# async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
+# async def get_async_session():
 #     async with async_session_maker() as session:
 #         yield session
