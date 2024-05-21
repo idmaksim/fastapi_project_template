@@ -1,8 +1,10 @@
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
+from utils.config import *
 
 
-DATABASE_URL = "postgresql+asyncpg://gen_user:testdatapassword@147.45.138.153:5432/temp"
+DATABASE_URL = f"{
+    DB_DRIVER}://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 
 class Base(DeclarativeBase):
