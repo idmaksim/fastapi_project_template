@@ -8,23 +8,23 @@ class AbstractRepository(ABC):
     @abstractmethod
     async def add_one():
         raise NotImplementedError
-    
+
     @abstractmethod
     async def get_all():
         raise NotImplementedError
-    
+
     @abstractmethod
     async def get_one_by_id():
         raise NotImplementedError
-    
+
     @abstractmethod
     async def get_one_by_data():
         raise NotImplementedError
-    
+
     @abstractmethod
     async def delete_one_by_id():
         raise NotImplementedError
-    
+
 
 class SQLAlchemyRepository(AbstractRepository):
     model = None
@@ -35,30 +35,29 @@ class SQLAlchemyRepository(AbstractRepository):
             res = await session.execute(statement=stmt)
             await session.commit()
             return res.scalar_one()
-    
+
     async def get_all(self, limit: int = 10):
         async with async_session_maker() as session:
             stmt = select(self.model).where(self.model.id <= limit)
             res = await session.execute(statement=stmt)
             return res.scalars().all()
-        
+
     async def get_one_by_id(self, id: int):
         async with async_session_maker() as session:
             stmt = select(self.model).filter_by(id=id)
             res = await session.execute(statement=stmt)
             return res.scalar()
-        
+
     async def get_one_by_data(self, **filters):
         async with async_session_maker() as session:
-            stmt = select(self.model).where(and_(*[getattr(self.model, key) == value for key, value in filters.items()]))
+            stmt = select(self.model).where(
+                and_(*[getattr(self.model, key) == value for key, value in filters.items()]))
             res = await session.execute(stmt)
             return res.scalar()
-        
+
     async def delete_one_by_id(self, id: int):
         async with async_session_maker() as session:
             stmt = delete(self.model).filter_by(id=id).returning(self.model)
             res = await session.execute(statement=stmt)
             await session.commit()
             return res.scalar()
-        
-            
