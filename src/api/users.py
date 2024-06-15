@@ -1,8 +1,8 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException, Query, status, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
 
 from api.dependencies import users_service
-from schemas.users import UserAddRequest
+from schemas.users import UserCreate
 from services.users import UsersService
 from utils.background_tasks import sample_bg_task
 from utils.error_handler import handle_route_error
@@ -16,7 +16,7 @@ router = APIRouter(
 
 @router.post('', status_code=status.HTTP_201_CREATED)
 async def add_user(
-    user: UserAddRequest,
+    user: UserCreate,
     user_service: Annotated[UsersService, Depends(users_service)],
     backdorund_tasks: BackgroundTasks
 ):

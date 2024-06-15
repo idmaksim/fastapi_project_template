@@ -1,6 +1,6 @@
 from typing import List
 from db.models.users import Users
-from schemas.users import UserAddRequest
+from schemas.users import UserCreate
 from utils.repository import AbstractRepository
 
 
@@ -8,7 +8,7 @@ class UsersService:
     def __init__(self, user_repo: AbstractRepository) -> None:
         self.users_repo: AbstractRepository = user_repo()
 
-    async def add_user(self, user: UserAddRequest):
+    async def add_user(self, user: UserCreate):
         user_dict = user.model_dump()
         new_user: Users = await self.users_repo.add_one(user_dict)
         new_user.__delattr__('password')

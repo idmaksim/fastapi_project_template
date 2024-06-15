@@ -33,6 +33,7 @@ class SQLAlchemyRepository(AbstractRepository):
         async with async_session_maker() as session:
             stmt = insert(self.model).values(**data).returning(self.model)
             res = await session.execute(statement=stmt)
+            await session.flush()
             await session.commit()
             return res.scalar_one()
 
