@@ -23,7 +23,10 @@ async def add_user(
     backdorund_tasks.add_task(sample_bg_task, message=f'adding user {user}!')
 
     new_user = await user_service.add_user(user)
-    return new_user
+    if new_user:
+        return new_user
+    
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='user dont added')
 
 
 @router.get('/{id}', status_code=status.HTTP_200_OK)

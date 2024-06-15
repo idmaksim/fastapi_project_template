@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 from sqlalchemy import delete, insert, select, and_
+import sqlalchemy
 from db.db import async_session_maker
 
 
@@ -31,11 +32,11 @@ class SQLAlchemyRepository(AbstractRepository):
 
     async def add_one(self, data: dict):
         async with async_session_maker() as session:
-            stmt = insert(self.model).values(**data).returning(self.model)
-            res = await session.execute(statement=stmt)
-            await session.flush()
-            await session.commit()
-            return res.scalar_one()
+                stmt = insert(self.model).values(**data).returning(self.model)
+                res = await session.execute(statement=stmt)
+                await session.flush()
+                await session.commit()
+                return res.scalar_one()
 
     async def get_all(self, limit: int = 10):
         async with async_session_maker() as session:

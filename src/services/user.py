@@ -1,4 +1,7 @@
 from typing import List
+
+from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
 from db.models.user import User
 from schemas.user import UserCreate
 from utils.repository import AbstractRepository
@@ -10,9 +13,17 @@ class UserService:
 
     async def add_user(self, user: UserCreate):
         user_dict = user.model_dump()
-        new_user: User = await self.users_repo.add_one(user_dict)
-        new_user.__delattr__('password')
-        return new_user
+        try:
+
+            new_user: User = await self.users_repo.add_one(user_dict)
+            new_user.__delattr__('password')
+            return new_user
+        
+        except IntegrityError:
+            raise HTTPException(
+                status_code=400,
+                detail=f"User with data {user} already exists",
+            )
     
     async def get_all(self, limit: int = 10):
         users: List[User] = await self.users_repo.get_all(limit)

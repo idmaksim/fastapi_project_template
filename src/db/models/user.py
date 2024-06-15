@@ -3,7 +3,7 @@ from db.db import Base
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
     email: str = Column(String, unique=True, nullable=False)
