@@ -1,9 +1,8 @@
 from sqlalchemy import Column, Integer, String
+from db.db import Base
 
-from ..db import Base
 
-
-class Users(Base):
+class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
@@ -11,3 +10,4 @@ class Users(Base):
     password: str = Column(String, nullable=False)
     name: str = Column(String, nullable=False)
     username: str = Column(String, nullable=False, unique=True)
+

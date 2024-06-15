@@ -2,8 +2,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
 
 from utils.dependencies import users_service
-from schemas.users import UserCreate
-from services.users import UsersService
+from schemas.user import UserCreate
+from services.user import UsersService
 from utils.background_tasks import sample_bg_task
 from utils.error_handler import handle_route_error
 

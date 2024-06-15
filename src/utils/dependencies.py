@@ -1,6 +1,6 @@
-from repositories.users import UsersRepository
-from services.users import UsersService
+from repositories.user import UserRepository
+from services.user import UserService
 
 
 def users_service():
-    return UsersService(UsersRepository)
+    return UserService(UserRepository)
