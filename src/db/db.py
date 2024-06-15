@@ -1,6 +1,13 @@
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
-from utils.config import *
+from utils.config import (
+    DB_DRIVER, 
+    DB_HOST, 
+    DB_PORT, 
+    DB_NAME, 
+    DB_USERNAME, 
+    DB_PASSWORD
+)
 
 
 DATABASE_URL = f"{

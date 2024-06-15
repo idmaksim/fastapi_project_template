@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
 
-from api.dependencies import users_service
+from utils.dependencies import users_service
 from schemas.users import UserCreate
 from services.users import UsersService
 from utils.background_tasks import sample_bg_task
